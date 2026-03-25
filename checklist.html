@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2BJL1WD7LK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2BJL1WD7LK');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>수원시 기후위기 적응역량 체크리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fa; --surface: #ffffff; --card: #ffffff; --border: #dde3ee;
+    --accent1: #0099cc; --accent2: #e8520a; --accent3: #1a9e3a; --accent4: #c9a800;
+    --text: #1a2235; --muted: #7a8aaa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,153,204,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,153,204,0.05) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 1; }
+
+  /* 헤더 */
+  .header { text-align: center; margin-bottom: 48px; animation: fadeDown 0.8s ease both; }
+  .header-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--accent1); border: 1px solid var(--accent1); padding: 4px 14px; margin-bottom: 20px; text-transform: uppercase; background: rgba(0,153,204,0.06); }
+  .header h1 { font-size: clamp(24px, 5vw, 42px); font-weight: 900; line-height: 1.2; margin-bottom: 12px; color: #0077aa; }
+  .header p { color: var(--muted); font-size: 14px; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+  /* 안내 배너 */
+  .notice-banner { background: rgba(0,153,204,0.06); border: 1px solid rgba(0,153,204,0.2); border-left: 4px solid var(--accent1); border-radius: 10px; padding: 18px 20px; margin-bottom: 36px; font-size: 13px; line-height: 1.7; animation: fadeUp 0.8s 0.1s ease both; }
+  .notice-title { font-weight: 700; color: var(--accent1); margin-bottom: 8px; font-size: 14px; }
+  .notice-body { color: #1a4a66; }
+  .notice-sub { color: var(--muted); margin-top: 4px; font-size: 12px; }
+
+  /* 대시보드 */
+  .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; animation: fadeUp 0.8s 0.2s ease both; }
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, border-color 0.3s; cursor: pointer; }
+  .score-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .score-card[data-cat="flood"]::before { background: var(--accent1); }
+  .score-card[data-cat="heat"]::before { background: var(--accent2); }
+  .score-card[data-cat="power"]::before { background: var(--accent4); }
+  .score-card[data-cat="vuln"]::before { background: var(--accent3); }
+  .score-card:hover { transform: translateY(-2px); border-color: var(--accent1); box-shadow: 0 4px 16px rgba(0,153,204,0.1); }
+  .score-icon { font-size: 24px; margin-bottom: 8px; }
+  .score-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.5px; }
+  .score-num { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; line-height: 1; }
+  .score-card[data-cat="flood"] .score-num { color: var(--accent1); }
+  .score-card[data-cat="heat"] .score-num { color: var(--accent2); }
+  .score-card[data-cat="power"] .score-num { color: var(--accent4); }
+  .score-card[data-cat="vuln"] .score-num { color: var(--accent3); }
+  .score-bar-wrap { margin-top: 10px; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 99px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); width: 0%; }
+  .score-card[data-cat="flood"] .score-bar { background: var(--accent1); }
+  .score-card[data-cat="heat"] .score-bar { background: var(--accent2); }
+  .score-card[data-cat="power"] .score-bar { background: var(--accent4); }
+  .score-card[data-cat="vuln"] .score-bar { background: var(--accent3); }
+
+  /* 섹션 */
+  .section { margin-bottom: 48px; animation: fadeUp 0.8s ease both; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+  .section-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .section[data-cat="flood"] .section-icon { background: rgba(0,153,204,0.08); border: 1px solid rgba(0,153,204,0.25); }
+  .section[data-cat="heat"] .section-icon { background: rgba(232,82,10,0.08); border: 1px solid rgba(232,82,10,0.25); }
+  .section[data-cat="power"] .section-icon { background: rgba(201,168,0,0.1); border: 1px solid rgba(201,168,0,0.3); }
+  .section[data-cat="vuln"] .section-icon { background: rgba(26,158,58,0.08); border: 1px solid rgba(26,158,58,0.25); }
+  .section-title-group h2, .section-title { font-size: 18px; font-weight: 700; }
+  .section-title-group span { font-size: 12px; color: var(--muted); }
+
+  /* 서브 라벨 */
+  .sub-label { font-size: 11px; font-family: 'Space Mono', monospace; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin: 20px 0 12px; padding-left: 10px; border-left: 2px solid var(--border); }
+  .sub-label.risk { border-color: #e74c3c; color: #e74c3c; }
+  .sub-label.ready { border-color: var(--accent3); color: var(--accent3); }
+  .sub-label.policy { border-color: #7c3aed; color: #7c3aed; }
+
+  /* 체크 아이템 */
+  .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .check-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: all 0.2s; user-select: none; position: relative; overflow: hidden; }
+  .check-item:hover { border-color: var(--accent1); background: #eef6fb; }
+  .check-item.checked-yes { background: rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.4); }
+  .check-item.checked-no { background: rgba(57,211,83,0.06); border-color: rgba(57,211,83,0.3); }
+  .check-item.is-positive.checked-yes { background: rgba(57,211,83,0.06); border-color: rgba(57,211,83,0.3); }
+  .check-item.is-positive.checked-no { background: rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.4); }
+  .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 12px; margin-top: 1px; }
+  .check-item.checked-yes .check-box, .check-item.is-positive.checked-no .check-box { background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c; }
+  .check-item.checked-no .check-box, .check-item.is-positive.checked-yes .check-box { background: rgba(57,211,83,0.2); border-color: var(--accent3); color: var(--accent3); }
+  .check-text { font-size: 13px; line-height: 1.5; color: var(--text); flex: 1; }
+  .toggle-btns { display: flex; gap: 4px; margin-left: auto; flex-shrink: 0; }
+  .btn-yn { font-family: 'Space Mono', monospace; font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; font-weight: 700; }
+  .btn-yes { border-color: rgba(231,76,60,0.4); color: rgba(231,76,60,0.8); }
+  .btn-no { border-color: rgba(57,211,83,0.4); color: rgba(57,211,83,0.8); }
+  .btn-yes.active { background: #e74c3c; border-color: #e74c3c; color: white; }
+  .btn-no.active { background: var(--accent3); border-color: var(--accent3); color: white; }
+  .btn-yn:hover { filter: brightness(1.1); }
+
+  /* 알림 박스 */
+  .alert-box { margin-top: 20px; border-radius: 10px; padding: 16px 18px; font-size: 13px; line-height: 1.6; display: none; animation: fadeUp 0.4s ease both; }
+  .alert-box.show { display: block; }
+  .alert-box.warn { background: rgba(231,76,60,0.06); border: 1px solid rgba(231,76,60,0.25); color: #c0392b; }
+  .alert-box.info { background: rgba(0,153,204,0.06); border: 1px solid rgba(0,153,204,0.25); color: #007aa3; }
+  .alert-box strong { font-weight: 700; display: block; margin-bottom: 4px; }
+
+  /* 진행 링 */
+  .progress-ring-wrap { display: flex; justify-content: center; margin: 40px 0; animation: fadeUp 0.8s 0.4s ease both; }
+  .progress-center { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+  .progress-center svg { transform: rotate(-90deg); }
+  .progress-center .ring-text { position: absolute; text-align: center; pointer-events: none; }
+  .ring-text .big { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; display: block; }
+  circle.track { fill: none; stroke: var(--border); stroke-width: 8; }
+  circle.prog { fill: none; stroke: var(--accent1); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 502; stroke-dashoffset: 502; transition: stroke-dashoffset 0.8s cubic-bezier(0.34,1.56,0.64,1); }
+
+  /* 정책 카드 */
+  .policy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .policy-card { background: #f8f4ff; border: 1px solid rgba(124,58,237,0.15); border-radius: 10px; padding: 14px 16px; transition: border-color 0.2s, background 0.2s; }
+  .policy-card:hover { border-color: rgba(124,58,237,0.4); background: #f0ebff; }
+  .policy-title { font-size: 13px; font-weight: 700; color: #5b21b6; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .badge { font-family: 'Space Mono', monospace; font-size: 9px; background: rgba(124,58,237,0.1); color: #7c3aed; border: 1px solid rgba(124,58,237,0.25); border-radius: 3px; padding: 1px 5px; letter-spacing: 0.5px; }
+  .policy-desc { font-size: 12px; color: #4a5568; line-height: 1.6; }
+  .policy-desc strong { color: #5b21b6; font-weight: 600; }
+  .policy-contact { display: inline-block; margin-top: 7px; font-family: 'Space Mono', monospace; font-size: 10px; color: #7c3aed; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 4px; padding: 2px 8px; }
+  .policy-contact a { color: inherit; text-decoration: none; }
+
+  /* 취약 경고 배너 */
+  .vuln-warning { display: none; margin-bottom: 20px; background: rgba(231,76,60,0.07); border: 1.5px solid rgba(231,76,60,0.4); border-left: 4px solid #e74c3c; border-radius: 12px; padding: 16px 20px; animation: fadeUp 0.4s ease both; }
+  .vuln-warning.show { display: flex; align-items: flex-start; gap: 12px; }
+  .vuln-warning-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .vuln-warning-body { flex: 1; }
+  .vuln-warning-title { font-size: 14px; font-weight: 700; color: #c0392b; margin-bottom: 4px; }
+  .vuln-warning-desc { font-size: 13px; color: #c0392b; line-height: 1.6; opacity: 0.85; }
+  .vuln-warning-count { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; color: #e74c3c; line-height: 1; flex-shrink: 0; align-self: center; }
+
+  /* 진행 바 */
+  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: var(--border); z-index: 100; }
+  .status-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3)); transition: width 0.5s ease; width: 0%; }
+
+  /* 푸터 */
+  .footer-note { text-align: center; margin-top: 60px; padding: 30px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; line-height: 1.8; }
+  .footer-note a { color: var(--accent1); text-decoration: none; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .items-grid { grid-template-columns: 1fr; }
+    .dashboard { grid-template-columns: repeat(2, 1fr); }
+    .policy-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<body>
+
+<div class="status-bar"><div class="status-bar-fill" id="statusBar"></div></div>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-tag">🌍 Suwon Citizen's Checklist for Climate Resilience</div>
+    <h1>수원시 기후위기<br>적응역량 강화 체크리스트</h1>
+    <p>각 항목에 <strong>예</strong> 또는 <strong>아니오</strong>를 체크하여<br>우리 가구의 기후위기 대비 수준을 점검해 보세요.</p>
+  </header>
+
+
+  <!-- 안내 배너 -->
+  <div class="notice-banner">
+    <div class="notice-title">📋 체크리스트 이용 안내</div>
+    <div class="notice-body">
+      ✅ 각 영역의 <strong>위험 진단</strong>에서 <strong>'예'가 3개 이상</strong>인 경우 해당 위험에 대한 <strong>취약 가능성이 높습니다.</strong>
+    </div>
+    <div class="notice-sub">✅ 이어지는 대비 점검 항목을 확인하여 준비 상태를 점검해 보세요.</div>
+    <div class="notice-sub">✅ 대비가 부족하다고 판단되는 경우 관련 준비를 보완하고, 필요 시 <strong style="color:var(--accent1)">동 행정복지센터</strong> 또는 관련 지원제도 상담창구에 문의하시기 바랍니다.</div>
+    <div style="margin-top:10px; font-size:11px; color:var(--muted);">※ 본 체크리스트는 자가 점검을 위한 참고 도구이며, 공식적인 판정 또는 선별 기준이 아닙니다. 다만, 취약 항목이 많은 경우 관련 행정 지원제도 활용을 적극 권장합니다.</div>
+  </div>
+
+
+
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <div class="score-card" data-cat="flood" style="cursor:pointer;" onclick="document.getElementById('sec-flood').scrollIntoView({behavior:'smooth'})">
+      <div class="score-icon">🌊</div>
+      <div class="score-label">침수 위험</div>
+      <div class="score-num" id="score-flood">—</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="bar-flood"></div></div>
+    </div>
+    <div class="score-card" data-cat="heat" style="cursor:pointer;" onclick="document.getElementById('sec-heat').scrollIntoView({behavior:'smooth'})">
+      <div class="score-icon">🌡️</div>
+      <div class="score-label">폭염·한파</div>
+      <div class="score-num" id="score-heat">—</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="bar-heat"></div></div>
+    </div>
+    <div class="score-card" data-cat="power" style="cursor:pointer;" onclick="document.getElementById('sec-power').scrollIntoView({behavior:'smooth'})">
+      <div class="score-icon">⚡</div>
+      <div class="score-label">정전 위험</div>
+      <div class="score-num" id="score-power">—</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="bar-power"></div></div>
+    </div>
+    <div class="score-card" data-cat="vuln" style="cursor:pointer;" onclick="document.getElementById('sec-vuln').scrollIntoView({behavior:'smooth'})">
+      <div class="score-icon">🏠</div>
+      <div class="score-label">가구 취약성</div>
+      <div class="score-num" id="score-vuln">—</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="bar-vuln"></div></div>
+    </div>
+  </div>
+
+  <!-- 1. 침수 위험 -->
+  <section class="section" data-cat="flood" id="sec-flood" style="animation-delay:0.1s">
+    <div class="section-header">
+      <div class="section-icon">🌊</div>
+      <div class="section-title-group">
+        <h2>1. 침수 위험 점검</h2>
+        <span>집중호우·저지대·배수 취약성 확인</span>
+      </div>
+    </div>
+
+
+    <div class="vuln-warning" id="warn-flood">
+      <div class="vuln-warning-icon">⚠️</div>
+      <div class="vuln-warning-body">
+        <div class="vuln-warning-title">침수 위험의 취약 가능성이 높습니다</div>
+        <div class="vuln-warning-desc">이어지는 대비 점검 항목과 관련 지원정책을 확인하고, 부족한 부분은 보완하세요. 필요 시 <strong>동 행정복지센터</strong> 또는 관련 지원제도 상담창구에 문의하시기 바랍니다.</div>
+      </div>
+      <div class="vuln-warning-count" id="warn-num-flood">0</div>
+    </div>
+    <div class="sub-label risk">⚠ 1) 우리집 위험 진단</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="flood" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">우리 집은 반지하, 저지대, 하천 인접 지역에 위치한다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">주변에 상습 침수 이력이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">과거 침수피해 경험이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">하수구나 배수로가 자주 막히는 지역이다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">지하주차장을 이용한다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label ready">✓ 2) 어떻게 대비하고 있나요?</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="flood" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">차수판·모래주머니 등 침수 대비 장비가 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">집 주변 배수구·하수관을 정기적으로 청소하거나 점검한다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">풍수해·지진 재해 보험에 가입했다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="true" data-core="true">
+        <div class="check-box">?</div>
+        <div class="check-text">인근 대피소 위치를 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="flood" data-positive="true" data-core="true">
+        <div class="check-box">?</div>
+        <div class="check-text">재난문자를 수신하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-box info" id="alert-flood">
+      📌 대비가 부족한 항목이 있습니다. 아래 관련 지원 정책을 확인하세요.
+    </div>
+
+    <div class="sub-label policy">📌 관련 지원 정책</div>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">침수방지장치 설치 지원 <span class="badge">설치비 80%</span></div>
+        <div class="policy-desc">침수우려지역 <strong>반지하 주택</strong>, 공동주택 <strong>지하주차장</strong> 대상 침수방지장치 설치 비용의 80% 지원
+          <br><span class="policy-contact">수원시 재난대응과 <a href="tel:03151912986" style="color:inherit; text-decoration:none;">031-5191-2986</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">풍수해·지진 재해보험 <span class="badge">보험료 50~100%</span></div>
+        <div class="policy-desc">호우·태풍 등 풍수재해 시 재산 보상. 대상: <strong>주택, 온실, 상가·공장(소상공인)</strong>. 연중 가입 가능.
+          <br><span class="policy-contact"><a href="https://www.suwon.go.kr/sw-www/deptHome/dep_safe/safe_01/safe_01_15.jsp" target="_blank" style="color:var(--accent1)">수원시 홈페이지 풍수해보험 안내 바로가기</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">농작물재해보험</div>
+        <div class="policy-desc">호우·태풍·대설·우박·이상저온·이상고온 등 자연재해 피해 시 재해복구비 지원. 가입시기는 작물별 상이.
+          <br><span class="policy-contact">농협손해보험 <a href="tel:16448900" style="color:inherit; text-decoration:none;">1644-8900</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">시민안전보험 <span class="badge">수원시민 자동가입</span></div>
+        <div class="policy-desc">수원시민 자동 가입. 재난 사고 시 <strong>인명피해 보상</strong>.
+          <br><span class="policy-contact">보상센터 <a href="tel:0221359453" style="color:inherit; text-decoration:none;">02-2135-9453</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">생활안전지도</div>
+        <div class="policy-desc">침수 흔적도, 하천 범람 지도, 산사태 이력, 범죄·교통·시설·보건·생활 등 안전정보 확인.
+          <br><span class="policy-contact"><a href="https://www.safemap.go.kr" target="_blank">safemap.go.kr</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">침수 위험 하수도 점검 요청</div>
+        <div class="policy-desc">빗물받이 막힘 신고 및 도로시설물 파손 신고 가능.
+          <br><span class="policy-contact">수원시 콜센터 <a href="tel:18993300" style="color:inherit; text-decoration:none;">1899-3300</a> / <a href="https://www.safetyreport.go.kr/#safereport/safereport" target="_blank" style="color:var(--accent1)">안전신문고 신고서 작성 바로가기</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">안전디딤돌 앱</div>
+        <div class="policy-desc">긴급재난문자·국민행동요령·대피소·무더위쉼터·병원위치·재난뉴스 등 재난안전정보 제공.
+          <br><a href="https://play.google.com/store/apps/details?id=kr.go.nema.disasteralert_new&pcampaignid=web_share" target="_blank" style="color:var(--accent1); font-size:12px; margin-right:12px;">📱 구글플레이 다운로드</a>
+          <a href="https://apps.apple.com/kr/app/%EC%95%88%EC%A0%84%EB%94%94%EB%94%A4%EB%8F%8C/id475638064" target="_blank" style="color:var(--accent1); font-size:12px;">🍎 앱스토어 다운로드</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 폭염 한파 -->
+  <section class="section" data-cat="heat" id="sec-heat" style="animation-delay:0.2s">
+    <div class="section-header">
+      <div class="section-icon">🌡️</div>
+      <div class="section-title-group">
+        <h2>2. 폭염 및 한파 위험 점검</h2>
+        <span>열·한랭 취약성 및 주거환경 확인</span>
+      </div>
+    </div>
+
+
+    <div class="vuln-warning" id="warn-heat">
+      <div class="vuln-warning-icon">⚠️</div>
+      <div class="vuln-warning-body">
+        <div class="vuln-warning-title">폭염·한파 위험의 취약 가능성이 높습니다</div>
+        <div class="vuln-warning-desc">이어지는 대비 점검 항목과 관련 지원정책을 확인하고, 부족한 부분은 보완하세요. 필요 시 <strong>동 행정복지센터</strong> 또는 관련 지원제도 상담창구에 문의하시기 바랍니다.</div>
+      </div>
+      <div class="vuln-warning-count" id="warn-num-heat">0</div>
+    </div>
+    <div class="sub-label risk">⚠ 1) 우리집 위험 진단 — 폭염</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">여름철 실내가 매우 덥다(냉방을 해도 실내가 충분히 시원하지 않다.)</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">실내 환기가 어렵다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">주변에 녹지·그늘이 부족하다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">건물 외피(옥상·외벽)가 직사광에 노출되어 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">온열질환 증상을 경험한 적이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label risk">⚠ 1) 우리집 위험 진단 — 한파</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">겨울철 실내가 춥다(난방을 해도 실내가 충분히 따뜻하지 않다.)</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">결로나 곰팡이가 발생한다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">수도 동파 경험이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">외벽 단열 또는 창호 성능이 낮다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+
+      <div class="check-item" data-cat="heat" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">한랭질환 경험이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label ready">✓ 2) 어떻게 대비하고 있나요? — 폭염</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">에어컨·선풍기 등 냉방기기를 보유하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">옥상에 차열페인트(쿨루프) 또는 차양막을 설치했다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true" data-core="true">
+        <div class="check-box">?</div>
+        <div class="check-text">무더위쉼터 위치를 알고 필요 시 이용할 수 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">폭염 시 행동요령(수분섭취, 외출자제 등)을 숙지하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+          </div>
+    <div class="sub-label ready">✓ 2) 어떻게 대비하고 있나요? — 한파</div>
+    <div class="items-grid">
+<div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">수도 동파 방지를 위해 보온조치를 하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">단열·창호 등 보온 상태를 점검하거나 보완하였다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">난방기 안전 점검을 정기적으로 실시하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="heat" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">한파 시 행동요령(보온, 외출자제 등)을 숙지하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-box info" id="alert-heat">
+      📌 대비가 부족한 항목이 있습니다. 아래 관련 지원 정책을 확인하세요.
+    </div>
+
+    <div class="sub-label policy">📌 관련 지원 정책</div>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">녹색건축물 조성지원 <span class="badge">공사비 50%</span></div>
+        <div class="policy-desc"><strong>15년 이상 노후 단독·다가구 주택</strong> 단열·창호 교체 등 에너지 효율 개선. 매년 1~2월 신청 모집.
+          <br><span class="policy-contact">수원시 건축과 <a href="tel:03151913587" style="color:inherit; text-decoration:none;">031-5191-3587</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">새빛하우스 집수리 지원 <span class="badge">최대 1,200만원</span></div>
+        <div class="policy-desc"><strong>20년 이상 노후저층주택</strong> 방수·단열·창호·난방설비 등 집수리. 자부담 10%. 매년 1~2월 모집.
+          <br><span class="policy-contact">수원도시재단 주거복지센터 <a href="tel:0312806359" style="color:inherit; text-decoration:none;">031-280-6359</a></span>
+          <br><a href="https://www.suzip.or.kr/main.do" target="_blank" style="color:var(--accent1); font-size:12px;">🏠 집수리플랫폼 바로가기</a>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">무더위·한파 쉼터</div>
+        <div class="policy-desc">폭염 및 한파 대비 동 행정복지센터·경로당·복지관 등 쉼터 운영.
+          <br><a href="https://www.safekorea.go.kr/idsiSFK/neo/sfk/cs/sfc/htw/htweaiList.html?menuSeq=862" target="_blank" style="color:var(--accent1); font-size:12px;">🏠 무더위·한파쉼터(국민재난안전포털)</a>
+          <br><a href="https://www.safemap.go.kr/main/smap_renewal.do#A2SM_COOLINGCENTRE_1" target="_blank" style="color:var(--accent1); font-size:12px;">🗺 생활안전지도</a>
+        </div>
+      </div>
+
+      <div class="policy-card">
+        <div class="policy-title">폭염 및 한파 시 행동요령</div>
+        <div class="policy-desc">홍수·가뭄·폭염·한파 등 자연재난 유형별 행동요령 안내.
+          <br><span class="policy-contact"><a href="https://www.suwon.go.kr/sw-www/deptHome/dep_safe/safe_01/safe_01_03/safe_01_03_02/safe_01_03_02_02.jsp" target="_blank" style="color:var(--accent1)">수원시청 홈페이지 자연재난안전 바로가기</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 정전 위험 -->
+  <section class="section" data-cat="power" id="sec-power" style="animation-delay:0.3s">
+    <div class="section-header">
+      <div class="section-icon">⚡</div>
+      <div class="section-title-group">
+        <h2>3. 정전 위험 점검</h2>
+        <span>전력공급 중단 대비 수준 확인</span>
+      </div>
+    </div>
+
+
+    <div class="vuln-warning" id="warn-power">
+      <div class="vuln-warning-icon">⚠️</div>
+      <div class="vuln-warning-body">
+        <div class="vuln-warning-title">정전 위험의 취약 가능성이 높습니다</div>
+        <div class="vuln-warning-desc">이어지는 대비 점검 항목과 관련 지원정책을 확인하고, 부족한 부분은 보완하세요. 필요 시 <strong>동 행정복지센터</strong> 또는 관련 지원제도 상담창구에 문의하시기 바랍니다.</div>
+      </div>
+      <div class="vuln-warning-count" id="warn-num-power">0</div>
+    </div>
+    <div class="sub-label risk">⚠ 1) 우리집 위험 진단</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="power" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">정전을 경험한 적이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">엘리베이터가 필수적인 고층 주택에 거주한다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">가구원 중 전기 의료기기 사용자가 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">정전 시 통신·연락 수단 확보가 어렵다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label ready">✓ 2) 어떻게 대비하고 있나요?</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="power" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">비상용 손전등 및 휴대전화 보조배터리를 준비하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">전기 의료기기 사용 시 비상 전원 계획이 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="true" data-core="true">
+        <div class="check-box">?</div>
+        <div class="check-text">정전 발생 시 신고 및 문의 방법을 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">비상용 생수(1인당 1일 2L, 최소 2일분)를 구비하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="power" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">아파트 관리사무소의 비상전원 가동 범위를 확인하였다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-box info" id="alert-power">
+      📌 대비가 부족한 항목이 있습니다. 아래 관련 지원 정책을 확인하세요.
+    </div>
+
+    <div class="sub-label policy">📌 관련 지원 정책</div>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">냉·난방 중단 시 대체공간 활용</div>
+        <div class="policy-desc"><strong>무더위·한파 쉼터</strong> 이용. 경로당·행정복지센터 등 개방 공간 활용 가능.
+          <br><a href="https://www.safemap.go.kr/main/smap_renewal.do#A2SM_COOLINGCENTRE_1" target="_blank" style="color:var(--accent1); font-size:12px;">🗺 생활안전지도</a>
+          <br><a href="https://play.google.com/store/apps/details?id=kr.go.nema.disasteralert_new&pcampaignid=web_share" target="_blank" style="color:var(--accent1); font-size:12px; margin-right:12px;">📱 안전디딤돌 구글플레이</a>
+          <a href="https://apps.apple.com/kr/app/%EC%95%88%EC%A0%84%EB%94%94%EB%94%A4%EB%8F%8C/id475638064" target="_blank" style="color:var(--accent1); font-size:12px;">🍎 앱스토어</a>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">정전 신고 및 긴급 대응</div>
+        <div class="policy-desc">정전 발생 시 한국전력공사에 즉시 신고. 고령자·의료기기 사용 가구는 사전 연락망 구축 권장.
+          <br><span class="policy-contact">한전 <a href="tel:123" style="color:inherit; text-decoration:none;">123</a> / 긴급 <a href="tel:119" style="color:inherit; text-decoration:none;">119</a> / 수원시 콜센터 <a href="tel:18993300" style="color:inherit; text-decoration:none;">1899-3300</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">재난 유형별 행동요령</div>
+        <div class="policy-desc">국민재난안전포털에서 정전 및 전력부족 행동요령 확인 가능.
+          <br><span class="policy-contact"><a href="https://www.safekorea.go.kr/idsiSFK/neo/sfk/cs/contents/prevent/SDIJKM5133.html?menuSeq=127" target="_blank" style="color:var(--accent1)">사회재난행동요령 정전 및 전력부족 바로가기</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 가구 취약성 -->
+  <section class="section" data-cat="vuln" id="sec-vuln" style="animation-delay:0.4s">
+    <div class="section-header">
+      <div class="section-icon">🏠</div>
+      <div class="section-title-group">
+        <h2>4. 가구 취약성 점검</h2>
+        <span>건강·소득·돌봄 여건 종합 확인</span>
+      </div>
+    </div>
+
+
+    <div class="vuln-warning" id="warn-vuln">
+      <div class="vuln-warning-icon">⚠️</div>
+      <div class="vuln-warning-body">
+        <div class="vuln-warning-title">가구 취약성의 취약 가능성이 높습니다</div>
+        <div class="vuln-warning-desc">이어지는 대비 점검 항목과 관련 지원정책을 확인하고, 부족한 부분은 보완하세요. 필요 시 <strong>동 행정복지센터</strong> 또는 관련 지원제도 상담창구에 문의하시기 바랍니다.</div>
+      </div>
+      <div class="vuln-warning-count" id="warn-num-vuln">0</div>
+    </div>
+    <div class="sub-label risk">⚠ 1) 우리집 위험 진단</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="vuln" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">독거이거나 긴급 상황 시 도움을 줄 사람이 없다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">가구원 중 고령자·영유아·장애·만성질환자(심혈관계·호흡기 질환자)가 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">주거 면적이 협소하거나 환기·채광이 부족하다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">쪽방, 고시원, 여인숙, 비닐하우스, 컨테이너, 움막 등에 살고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="false">
+        <div class="check-box">?</div>
+        <div class="check-text">냉·난방비 부담으로 적정 실내온도 유지가 어렵다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label ready">✓ 2) 어떻게 대비하고 있나요?</div>
+    <div class="items-grid">
+      <div class="check-item" data-cat="vuln" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">비상 연락망을 확보하고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">취약계층 방문건강관리 서비스 이용 또는 신청 방법을 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">저소득층 에너지바우처 등 냉난방비 지원제도를 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">주거복지 상담 창구를 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="true" data-core="true">
+        <div class="check-box">?</div>
+        <div class="check-text">위기 상황 시 도움을 요청할 기관을 알고 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+      <div class="check-item" data-cat="vuln" data-positive="true">
+        <div class="check-box">?</div>
+        <div class="check-text">스마트폰, TV·라디오 등을 통해 재난정보를 확인할 수 있다.</div>
+        <div class="toggle-btns">
+          <button class="btn-yn btn-yes" onclick="setCheck(this,'yes')">예</button>
+          <button class="btn-yn btn-no" onclick="setCheck(this,'no')">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-box info" id="alert-vuln">
+      📌 대비가 부족한 항목이 있습니다. 아래 관련 지원 정책을 확인하세요.
+    </div>
+
+    <div class="sub-label policy">📌 관련 지원 정책</div>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">수원새빛돌봄(누구나)</div>
+        <div class="policy-desc">혼자 거동이 어렵고, 기존 돌봄서비스 이용이 어려운 경우. <strong>중위소득 120% 이하</strong> 연간 150만원 지원. 생활·동행·주거안전·식사·심리상담·방문의료 등.
+          <br><span class="policy-contact">수원시 콜센터 <a href="tel:18993300" style="color:inherit; text-decoration:none;">1899-3300</a> / 동 행정복지센터</span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">저소득층 에너지바우처 <span class="badge">4~12월 접수</span></div>
+        <div class="policy-desc">장애인·유아·고령자 등 <strong>생계급여·의료급여 수급자</strong> 냉난방비 지원. 하절기(7~9월) / 동절기(10월~익년 4월).
+          <br><span class="policy-contact">동 행정복지센터 에너지바우처 상담서비스 <a href="tel:16003190" style="color:inherit; text-decoration:none;">1600-3190</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">전기요금 복지할인</div>
+        <div class="policy-desc"><strong>장애인·기초생활수급자</strong> 등 전기요금 감면 제도.
+          <br><span class="policy-contact">한국전력 고객센터 <a href="tel:123" style="color:inherit; text-decoration:none;">123</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">저소득층 에너지효율 개선</div>
+        <div class="policy-desc"><strong>기초생활수급자·차상위·한부모가정</strong> 냉방기기 지원, 단열·창호·보일러 등 난방시공 지원.
+          <br><span class="policy-contact">동 행정복지센터 / 콜센터 <a href="tel:16707653" style="color:inherit; text-decoration:none;">1670-7653</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">주거취약계층 주거상향 지원</div>
+        <div class="policy-desc">쪽방·고시원·비닐하우스 등 비주택 거주자 → 공공임대주택 이주 지원. 주거복지 상담·공과금·정착물품 지원.
+          <br><span class="policy-contact">수원도시재단 주거복지센터 <a href="tel:15515915" style="color:inherit; text-decoration:none;">1551-5915</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">독거노인 응급안전 알림 서비스</div>
+        <div class="policy-desc">응급안전시스템 설치, 고독사 및 응급상황 등 각종 위험으로부터 어르신 보호.
+          <br><span class="policy-contact">동 행정복지센터 / SK청솔노인복지관</span>
+          <br><a href="https://www.suwon.go.kr/sw-www/deptHome/dep_welfare/welfare14/welfare14-06/welfare14-06-17.jsp" target="_blank" style="color:var(--accent1); font-size:12px;">🔗 수원시 독거노인 응급안전 알림서비스 바로가기</a>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">취약계층 방문건강관리사업</div>
+        <div class="policy-desc"><strong>기초생활수급자·독거·차상위 계층</strong> 건강관리서비스 제공, 1:1 보건·복지서비스 연계.
+          <br><span class="policy-contact">전화상담 및 보건소 내소</span>
+          <br><a href="https://www.suwon.go.kr/sw-www/deptHome/dep_welfare/welfare14/welfare14-06/welfare14-06-07.jsp" target="_blank" style="color:var(--accent1); font-size:12px;">🔗 수원시 취약계층 방문건강관리사업 바로가기</a>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">심뇌혈관질환 예방관리 사업</div>
+        <div class="policy-desc">고혈압·당뇨병 교실 운영(매월 1·3주 수요일). 혈압·혈당·지질 검사 및 맞춤형 건강관리 제공.
+          <br><span class="policy-contact">보건소 문의</span>
+          <br><a href="https://health.suwon.go.kr/sub.asp?page_code=sub0406" target="_blank" style="color:var(--accent1); font-size:12px;">🔗 수원시 심뇌혈관질환 예방관리 사업 바로가기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 시민 참여 및 생활관리 프로그램 -->
+  <section class="section" style="animation-delay:0.5s;">
+    <div class="section-header">
+      <div class="section-icon">🌱</div>
+      <div><div class="section-title">시민 참여 및 생활관리 프로그램</div></div>
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">다음 프로그램은 생활 속 에너지 관리와 안전을 위해 시민이 참여할 수 있는 제도입니다.</p>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">찾아가는 시민 안전교육 <span class="badge">2026. 3~12월</span></div>
+        <div class="policy-desc">수원시민 누구나(20인 이상), 신청자 희망장소 방문. 전기·가스·화재·교통·재난·심폐소생술 교육.
+          <br><span class="policy-contact">수원시 안전정책과 <a href="tel:03151913675" style="color:inherit; text-decoration:none;">031-5191-3675</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">탄소중립포인트제(에너지)</div>
+        <div class="policy-desc">에너지 사용량 5% 이상 감축 시 탄소포인트 부여·인센티브 지급(연 2회, 6월·12월). 연중 신청 가능.
+          <br><span class="policy-contact">콜센터 <a href="tel:16602030" style="color:inherit; text-decoration:none;">1660-2030</a> / <a href="https://cpoint.or.kr" target="_blank">cpoint.or.kr</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">우리집 탄소모니터링</div>
+        <div class="policy-desc">공동주택 대상, 가구별 전기·가스 사용량 확인 및 절감 현황 관리.
+          <br><span class="policy-contact">수원시 기후에너지과 문의</span>
+          <br><a href="https://play.google.com/store/apps/details?id=com.myhomecarbon.android&hl=ko&pli=1" target="_blank" style="color:var(--accent1); font-size:12px; margin-right:12px;">📱 구글플레이 다운로드</a>
+          <a href="https://apps.apple.com/kr/app/id6756338457" target="_blank" style="color:var(--accent1); font-size:12px;">🍎 앱스토어 다운로드</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label policy" style="margin-top:24px">🔗 알아두면 쓸모있는 정보</div>
+    <div class="policy-grid">
+      <div class="policy-card">
+        <div class="policy-title">행정안전부 재난안전포털</div>
+        <div class="policy-desc">각종 재난 안전정보 및 행동요령 제공. ☎ 110
+          <br><span class="policy-contact"><a href="https://www.safekorea.go.kr" target="_blank">safekorea.go.kr</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">안전신문고</div>
+        <div class="policy-desc">생활 속 위험요소 신고 (앱/웹 이용).
+          <br><span class="policy-contact"><a href="https://safetyreport.go.kr" target="_blank">safetyreport.go.kr</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">생활안전지도</div>
+        <div class="policy-desc">국민 개개인이 생활주변 위험에 관심을 가지고 스스로 대처할 수 있도록 안전정보들을 통합하여 지도 위에 표현한 서비스.
+          <br><span class="policy-contact"><a href="https://www.safemap.go.kr/main/smap.d" target="_blank">safemap.go.kr</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">한국전기안전공사</div>
+        <div class="policy-desc">전기 안전 관련 문의.
+          <br><span class="policy-contact"><a href="https://www.kesco.or.kr" target="_blank">kesco.or.kr</a> / <a href="tel:15887500" style="color:inherit; text-decoration:none;">1588-7500</a></span>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">한국가스안전공사</div>
+        <div class="policy-desc">가스 안전 관련 문의.
+          <br><span class="policy-contact"><a href="https://www.kgs.or.kr" target="_blank">kgs.or.kr</a> / <a href="tel:15444500" style="color:inherit; text-decoration:none;">1544-4500</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 만족도 조사 -->
+  <section class="section" style="animation-delay:0.5s;">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div><div class="section-title">만족도 조사</div></div>
+    </div>
+    <div style="padding:20px 16px;">
+      <p style="font-size:15px; font-weight:600; margin-bottom:16px; color:#222;">본 체크리스트가 기후위기 대비에 도움이 되었습니까?</p>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:10px 14px; border-radius:8px; border:1px solid #ddd; font-size:14px; background:#fff;"><input type="radio" name="satisfaction" value="1"> ① 전혀 도움이 되지 않았다</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:10px 14px; border-radius:8px; border:1px solid #ddd; font-size:14px; background:#fff;"><input type="radio" name="satisfaction" value="2"> ② 별로 도움이 되지 않았다</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:10px 14px; border-radius:8px; border:1px solid #ddd; font-size:14px; background:#fff;"><input type="radio" name="satisfaction" value="3"> ③ 보통이다</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:10px 14px; border-radius:8px; border:1px solid #ddd; font-size:14px; background:#fff;"><input type="radio" name="satisfaction" value="4"> ④ 도움이 되었다</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:10px 14px; border-radius:8px; border:1px solid #ddd; font-size:14px; background:#fff;"><input type="radio" name="satisfaction" value="5"> ⑤ 매우 도움이 되었다</label>
+      </div>
+      <div id="survey-submit" onclick="submitSurvey()" style="display:inline-block; background:#0099cc; color:#fff; border-radius:8px; padding:12px 32px; font-size:15px; font-weight:600; cursor:pointer; user-select:none;">제출</div>
+    </div>
+  </section>
+
+</div>
+
+
+<script>
+document.querySelectorAll('.check-item').forEach(item => {
+  if (item.dataset.positive === 'true') item.classList.add('is-positive');
+});
+
+// 정책 링크 클릭 추적
+document.querySelectorAll('.policy-card a[target="_blank"]').forEach(link => {
+  link.addEventListener('click', function() {
+    if (typeof gtag === 'undefined') return;
+    const card = this.closest('.policy-card');
+    const titleEl = card ? card.querySelector('.policy-title') : null;
+    const policyName = titleEl ? titleEl.textContent.trim().replace(/\s+/g, ' ') : this.textContent.trim();
+    gtag('event', 'policy_link_clicked', {
+      'event_category': policyName,
+      'event_label': this.href
+    });
+  });
+});
+
+// 전화번호 클릭 추적
+document.querySelectorAll('.policy-card a[href^="tel:"]').forEach(link => {
+  link.addEventListener('click', function() {
+    if (typeof gtag === 'undefined') return;
+    const card = this.closest('.policy-card');
+    const titleEl = card ? card.querySelector('.policy-title') : null;
+    const policyName = titleEl ? titleEl.textContent.trim().replace(/\s+/g, ' ') : '';
+    gtag('event', 'phone_clicked', {
+      'event_category': policyName,
+      'event_label': this.textContent.trim()
+    });
+  });
+});
+
+let checklistStarted = false;
+
+function setCheck(btn, val) {
+  const item = btn.closest('.check-item');
+  const isRisk = item.dataset.positive === 'false';
+  const cat = item.dataset.cat;
+  const label = item.querySelector('.check-text') ? item.querySelector('.check-text').textContent.trim() : '';
+
+  // 위험진단 첫 체크 시 이벤트 전송
+  item.classList.remove('checked-yes', 'checked-no');
+  item.querySelectorAll('.btn-yn').forEach(b => b.classList.remove('active'));
+  if (val === 'yes') {
+    item.classList.add('checked-yes');
+    item.querySelector('.check-box').textContent = '✓';
+  } else {
+    item.classList.add('checked-no');
+    item.querySelector('.check-box').textContent = '✗';
+  }
+  btn.classList.add('active');
+  updateScores();
+}
+
+function updateScores() {
+  const cats = ['flood','heat','power','vuln'];
+  let totalAnswered = 0, totalItems = 0;
+
+  cats.forEach(cat => {
+    const items = document.querySelectorAll('.check-item[data-cat="' + cat + '"]');
+    let answered = 0;
+    items.forEach(item => {
+      if (item.classList.contains('checked-yes') || item.classList.contains('checked-no')) answered++;
+    });
+    totalAnswered += answered;
+    totalItems += items.length;
+
+    const pct = items.length ? Math.round(answered / items.length * 100) : 0;
+    const scoreEl = document.getElementById('score-' + cat);
+    const barEl = document.getElementById('bar-' + cat);
+    if (scoreEl) scoreEl.textContent = answered + '/' + items.length;
+    if (barEl) barEl.style.width = pct + '%';
+
+    const alertEl = document.getElementById('alert-' + cat);
+    if (alertEl) {
+      const prepItems = document.querySelectorAll('.check-item[data-cat="' + cat + '"][data-positive="true"]');
+      const coreItems = document.querySelectorAll('.check-item[data-cat="' + cat + '"][data-positive="true"][data-core="true"]');
+
+      // 핵심항목: 아니오 1개만 있어도 표시
+      let coreHasNo = false;
+      coreItems.forEach(item => { if (item.classList.contains('checked-no')) coreHasNo = true; });
+
+      // 일반항목: 아니오 2개 이상이면 표시
+      let generalNoCount = 0;
+      prepItems.forEach(item => {
+        if (!item.dataset.core && item.classList.contains('checked-no')) generalNoCount++;
+      });
+
+      if (coreHasNo || generalNoCount >= 2) alertEl.classList.add('show');
+      else alertEl.classList.remove('show');
+    }
+
+    const riskItems = document.querySelectorAll('.check-item[data-cat="' + cat + '"][data-positive="false"]');
+    let riskYes = 0;
+    riskItems.forEach(item => { if (item.classList.contains('checked-yes')) riskYes++; });
+    const warnEl = document.getElementById('warn-' + cat);
+    if (warnEl) {
+      if (riskYes >= 3) {
+        warnEl.classList.add('show');
+        const warnNum = document.getElementById('warn-num-' + cat);
+        const warnCount = document.getElementById('warn-count-' + cat);
+        if (warnNum) warnNum.textContent = riskYes;
+        if (warnCount) warnCount.textContent = riskYes;
+      } else {
+        warnEl.classList.remove('show');
+      }
+    }
+  });
+
+  const overallPct = totalItems ? Math.round(totalAnswered / totalItems * 100) : 0;
+  const ringNum = document.getElementById('ringNum');
+  const ringProg = document.getElementById('ringProg');
+  const statusFill = document.querySelector('.status-bar-fill');
+  if (ringNum) ringNum.textContent = overallPct + '%';
+  if (ringProg) ringProg.style.strokeDashoffset = 502 - (502 * overallPct / 100);
+  if (statusFill) statusFill.style.width = overallPct + '%';
+  if (overallPct === 100 && typeof gtag !== 'undefined') { gtag('event', 'checklist_completed', {'event_category': '체크리스트', 'event_label': '완료'}); }
+}
+
+function submitSurvey() {
+  const selected = document.querySelector('input[name="satisfaction"]:checked');
+  if (!selected) { alert('항목을 선택해 주세요.'); return; }
+  const val = selected.value;
+  const labels = {1:'전혀 도움이 되지 않았다', 2:'별로 도움이 되지 않았다', 3:'보통이다', 4:'도움이 되었다', 5:'매우 도움이 되었다'};
+
+  if (typeof gtag !== 'undefined') {
+
+    // 1. 만족도 전송
+    gtag('event', 'survey_submitted', {
+      'event_category': '만족도조사',
+      'event_label': labels[val],
+      'value': parseInt(val)
+    });
+
+    // 2. 위험진단 '예' 항목 + 대비사항 '아니오' 항목만 전송
+    const filteredItems = Array.from(document.querySelectorAll('.check-item')).filter(item => {
+      const isRisk = item.dataset.positive === 'false';
+      const isPrep = item.dataset.positive === 'true';
+      if (isRisk && item.classList.contains('checked-yes')) return true;   // 위험진단 예
+      if (isPrep && item.classList.contains('checked-no')) return true;    // 대비사항 아니오
+      return false;
+    });
+
+    filteredItems.forEach((item, index) => {
+      setTimeout(() => {
+        const isRisk = item.dataset.positive === 'false';
+        const label = item.querySelector('.check-text')?.textContent.trim() || '';
+        gtag('event', isRisk ? 'risk_checked' : 'prep_checked', {
+          'event_category': label,
+          'event_label': isRisk ? '예' : '아니오',
+          'value': isRisk ? 1 : 0
+        });
+      }, index * 30);
+    });
+
+    // 3. 완료 이벤트 전송
+    gtag('event', 'checklist_completed', {
+      'event_category': '체크리스트',
+      'event_label': '제출 완료'
+    });
+  }
+
+  // 버튼·라디오 비활성화
+  document.getElementById('survey-submit').style.pointerEvents = 'none';
+  document.getElementById('survey-submit').style.opacity = '0.5';
+  document.getElementById('survey-submit').style.cursor = 'default';
+  document.querySelectorAll('input[name="satisfaction"]').forEach(r => r.disabled = true);
+}
+
+</script>
+</html>
